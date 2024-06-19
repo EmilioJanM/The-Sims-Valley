@@ -16,9 +16,9 @@ public class DialogueInk : MonoBehaviour
 
     private Story _currentStory;
     private bool _dialoguePlaying = false;
+    private bool _dialogueFinished = false;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         if(instance != null)
@@ -29,21 +29,25 @@ public class DialogueInk : MonoBehaviour
         instance = this;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!_dialoguePlaying)
             return;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && _dialogueFinished)
         {
             ContinueStory();
         }
-
     }
 
+    /// <summary>
+    /// Enters the dialogue, activated with triggers
+    /// </summary>
+    /// <param name="ink"></param>
     public void EnterDialogue(TextAsset ink)
     {
+        _nextButton.GetComponent<TextMeshProUGUI>().text = "Press space to continue";
+
         _currentStory = new Story(ink.text);
         _dialoguePanel.SetActive(true);
         _dialoguePlaying = true;
@@ -51,10 +55,14 @@ public class DialogueInk : MonoBehaviour
         ContinueStory();
     }
 
+    /// <summary>
+    /// Continues through the lines of the dialogue
+    /// </summary>
     public void ContinueStory()
     {
         index = 0;
         _nextButton.SetActive(false);
+        _dialogueFinished = false;
 
         if (_currentStory.canContinue)
         {
@@ -73,8 +81,15 @@ public class DialogueInk : MonoBehaviour
         _dialoguePlaying = false;
         _dialoguePanel.SetActive(false);
         _dialogueTextMesh.text = "";
+        _dialogueFinished = false;
+        StopAllCoroutines();
     }
 
+    /// <summary>
+    /// "Animates" the dialogue adding one letter at a time
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
     IEnumerator AddCharsToDialogue(string text)
     {
         foreach (char x in text)
@@ -86,7 +101,13 @@ public class DialogueInk : MonoBehaviour
         }
         if(index == text.Length)
         {
+            if (!_currentStory.canContinue)
+            {
+                _nextButton.GetComponent<TextMeshProUGUI>().text = "Press space to exit";
+                StoreManager.instance.ActivateOptionsScreen();
+            }
             _nextButton.SetActive(true);
+            _dialogueFinished = true;
         }
     }
 }

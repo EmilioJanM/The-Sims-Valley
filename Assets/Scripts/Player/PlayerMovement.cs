@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] GameObject camera;
-    public float _speed;
-    private Rigidbody2D _rid;
-    Vector3 _movement;
-    Animator _animator;
-
+    [SerializeField] private GameObject camera;
     [SerializeField] private float _normalScale;
+
+    public float _speed;
+    private Vector3 _movement;
+    private Animator _animator;
+    private Rigidbody2D _rid;
+
 
     
 

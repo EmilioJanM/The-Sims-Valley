@@ -41,6 +41,7 @@ public class DialogueTrigger : MonoBehaviour
         {
             _pressKey.SetActive(false);
             DialogueInk.instance.ExitDialogue();
+            StoreManager.instance.ExitAllScreens();
             inTrigger = false;
         }
     }
