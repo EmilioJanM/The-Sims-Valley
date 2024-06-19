@@ -13,14 +13,13 @@ public class PlayerInventory : MonoBehaviour
 
     //Index: 0 = Hood, 1 = pelvis, 2 = left Shoulder, 3 = right shoulder, 4 = torso
 
-    [SerializeField] private List<Image> _display = new List<Image>();
+
     [SerializeField] List<ItemObject> _listOfObjects = new List<ItemObject>();
     [SerializeField] TextMeshProUGUI _coinsText;
 
-    [SerializeField] private List<SpriteRenderer> _equipmentToChange = new List<SpriteRenderer>();
 
-    [Header("All Objects for each part")]
-    [SerializeField] List<List<ItemObject>> _allListsObjectsToChange = new List<List<ItemObject>>();
+    [Header("All Objects for each part")] //Here the objects are sepparated into their own respective lists removing them from a list that has all the items availbale
+    [SerializeField] List<List<ItemObject>> _allListsObjectsToChange = new List<List<ItemObject>>(); 
     [SerializeField] List<ItemObject> _listOfHoods = new List<ItemObject>();
     [SerializeField] List<ItemObject> _listOfPelvis = new List<ItemObject>();
     [SerializeField] List<ItemObject> _listOfDholdL = new List<ItemObject>();
@@ -70,6 +69,10 @@ public class PlayerInventory : MonoBehaviour
         return _listOfObjects;
     }
 
+
+    /// <summary>
+    /// Uses _listOfObjects that has all of the items available and with the use of _allListsObjectsToChange separates all of the objects into their respective type of item for customization
+    /// </summary>
     public void SetItemsList()
     {
         for (int i = 0; i != _listOfObjects.Count; i++){
@@ -100,6 +103,12 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// When an item is sold it is removed form the list of objects that is available and the list with that type of item is updated
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="coins"></param>
+    /// <param name="item"></param>
     public void SellItem(int index, int coins, ItemObject item)
     {
         _listOfObjects.RemoveAt(index);
@@ -110,6 +119,10 @@ public class PlayerInventory : MonoBehaviour
         CheckForTypeOfItem(item);
     }
 
+    /// <summary>
+    /// checks what kind of item was sold and updates the list of the avaiable items
+    /// </summary>
+    /// <param name="item"></param>
     private void CheckForTypeOfItem(ItemObject item)
     {
         switch (item.index)

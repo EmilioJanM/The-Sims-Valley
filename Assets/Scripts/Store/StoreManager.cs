@@ -16,7 +16,7 @@ public class StoreManager : MonoBehaviour
     [SerializeField] GameObject _sellScreen;
     [SerializeField] GameObject _selectBuySell;
 
-    [Header("Items")]
+    [Header("Items")] //The tiems available in the lists of objects that can be bought and the list of those that can be sold
     [SerializeField] List<ItemObject> _listOfObjects = new List<ItemObject>();
     [SerializeField] List<ItemObject> _listOfObjectsToSell = new List<ItemObject>();
 
@@ -83,8 +83,12 @@ public class StoreManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// updates the visual representation of the item and the cost
+    /// </summary>
     public void SetBuyInfo()
     {
+        inStore = true;
         _currentObject = _listOfObjects[_currentIdexBuy];
         _buyItemDisplay.sprite = _currentObject.image;
         _buyCostDisplay.text = _currentObject.price.ToString();
@@ -93,6 +97,9 @@ public class StoreManager : MonoBehaviour
             _statusButtonBuy.text = "Buy!";
     }
 
+    /// <summary>
+    /// When an item is bought it is added to a list qith all the items that the player has, in the PlayerInventory class they are separated into types
+    /// </summary>
     public void BuyItem()
     {
         if (_listOfObjects.Count == 0)
@@ -121,6 +128,7 @@ public class StoreManager : MonoBehaviour
     /// </summary>
     public void ExitAllScreens()
     {
+        inStore = false;
         _buyScreen.SetActive(false);
         _sellScreen.SetActive(false);
         //_listOfObjectsToSell.Clear();
@@ -131,6 +139,7 @@ public class StoreManager : MonoBehaviour
 
     public void OpenSellScreen()
     {
+        inStore = true;
         _sellScreen.SetActive(true);
         _listOfObjectsToSell = PlayerInventory.instance.GetListOfItems();
 
@@ -162,6 +171,9 @@ public class StoreManager : MonoBehaviour
         SetSellInfo();
     }
 
+    /// <summary>
+    /// Sells and item and updates the coin for the player as well as to return it to the store
+    /// </summary>
     public void SellItem()
     {
         if (_listOfObjectsToSell.Count == 0)
@@ -182,6 +194,9 @@ public class StoreManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the item info in the display
+    /// </summary>
     private void SetSellInfo()
     {
         if (_listOfObjectsToSell.Count == 0)

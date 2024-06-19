@@ -5,7 +5,6 @@ using UnityEngine;
 public class DialogueTrigger : MonoBehaviour
 {
     [SerializeField] GameObject _pressKey;
-
     [SerializeField] TextAsset jsonInk;
     private bool inTrigger;
 
@@ -19,7 +18,7 @@ public class DialogueTrigger : MonoBehaviour
                 _pressKey.SetActive(false);
             }
         }
-        else if (inTrigger && !DialogueInk._dialoguePlaying)
+        else if (inTrigger && !DialogueInk._dialoguePlaying && !StoreManager.inStore)
         {
             _pressKey.SetActive(true);
         }

@@ -79,6 +79,10 @@ public class DialogueInk : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Exits the dialogue and all the screens
+    /// </summary>
     public void ExitDialogue()
     {
         _dialoguePlaying = false;

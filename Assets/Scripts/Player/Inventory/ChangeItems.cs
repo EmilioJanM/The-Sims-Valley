@@ -11,6 +11,11 @@ public class ChangeItems : MonoBehaviour
 
     private int _currentIndex;
 
+
+    /// <summary>
+    /// Set the items of this type as available to equip
+    /// </summary>
+    /// <param name="list"></param>
     public void SetItems(List<ItemObject> list)
     {
         _listOfItems = list;
@@ -38,6 +43,10 @@ public class ChangeItems : MonoBehaviour
         _part.sprite = _listOfItems[_currentIndex].image;
     }
 
+
+    /// <summary>
+    /// If a part that is equipped was sold then that part returns to the basic equipment
+    /// </summary>
     public void ResetPart()
     {
         if (_listOfItems.Count != 0)
