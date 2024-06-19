@@ -9,7 +9,7 @@ public class PlayerInventory : MonoBehaviour
     public static PlayerInventory instance;
 
     [SerializeField] private GameObject _changeScreen;
-    public int coins { get; private set; }
+    [SerializeField] public int coins;
 
     //Index: 0 = Hood, 1 = pelvis, 2 = left Shoulder, 3 = right shoulder, 4 = torso
 
@@ -52,7 +52,6 @@ public class PlayerInventory : MonoBehaviour
             Destroy(gameObject);
         }
 
-        coins = 10000;
         instance = this;
 
         _coinsText.text = coins.ToString();

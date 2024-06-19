@@ -40,8 +40,11 @@ public class ChangeItems : MonoBehaviour
 
     public void ResetPart()
     {
-        _displayPart.sprite = _listOfItems[0].image;
-        _part.sprite = _listOfItems[0].image;
-        _currentIndex = 0;
+        if (_listOfItems.Count != 0)
+        {
+            _displayPart.sprite = _listOfItems[0].image;
+            _part.sprite = _listOfItems[0].image;
+            _currentIndex = 0;
+        }
     }
 }

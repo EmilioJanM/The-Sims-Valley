@@ -9,20 +9,19 @@ public class DialogueTrigger : MonoBehaviour
     [SerializeField] TextAsset jsonInk;
     private bool inTrigger;
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         if (inTrigger && _pressKey.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 DialogueInk.instance.EnterDialogue(jsonInk);
                 _pressKey.SetActive(false);
             }
+        }
+        else if (inTrigger && !DialogueInk._dialoguePlaying)
+        {
+            _pressKey.SetActive(true);
         }
     }
 
@@ -44,5 +43,13 @@ public class DialogueTrigger : MonoBehaviour
             StoreManager.instance.ExitAllScreens();
             inTrigger = false;
         }
+    }
+
+    private void OnDisable()
+    {
+        _pressKey.SetActive(false);
+        DialogueInk.instance.ExitDialogue();
+        StoreManager.instance.ExitAllScreens();
+        inTrigger = false;
     }
 }

@@ -15,7 +15,7 @@ public class DialogueInk : MonoBehaviour
     private int index = 0;
 
     private Story _currentStory;
-    private bool _dialoguePlaying = false;
+    public static bool _dialoguePlaying = false;
     private bool _dialogueFinished = false;
 
 
@@ -34,7 +34,7 @@ public class DialogueInk : MonoBehaviour
         if (!_dialoguePlaying)
             return;
 
-        if (Input.GetKeyDown(KeyCode.Space) && _dialogueFinished)
+        if (Input.GetKeyDown(KeyCode.E) && _dialogueFinished)
         {
             ContinueStory();
         }
@@ -47,7 +47,7 @@ public class DialogueInk : MonoBehaviour
     public void EnterDialogue(TextAsset ink)
     {
         StoreManager.inStore = true;
-        _nextButton.GetComponent<TextMeshProUGUI>().text = "Press space to continue";
+        _nextButton.GetComponent<TextMeshProUGUI>().text = "Press E to continue";
 
         _currentStory = new Story(ink.text);
         _dialoguePanel.SetActive(true);
@@ -73,6 +73,8 @@ public class DialogueInk : MonoBehaviour
         }
         else
         {
+            StoreManager.instance.ExitAllScreens();
+
             ExitDialogue();
         }
     }
@@ -104,7 +106,7 @@ public class DialogueInk : MonoBehaviour
         {
             if (!_currentStory.canContinue)
             {
-                _nextButton.GetComponent<TextMeshProUGUI>().text = "Press space to exit";
+                _nextButton.GetComponent<TextMeshProUGUI>().text = "Press E to exit";
                 StoreManager.instance.ActivateOptionsScreen();
             }
             _nextButton.SetActive(true);
