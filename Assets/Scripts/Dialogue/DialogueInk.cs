@@ -46,6 +46,7 @@ public class DialogueInk : MonoBehaviour
     /// <param name="ink"></param>
     public void EnterDialogue(TextAsset ink)
     {
+        StoreManager.inStore = true;
         _nextButton.GetComponent<TextMeshProUGUI>().text = "Press space to continue";
 
         _currentStory = new Story(ink.text);

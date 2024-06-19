@@ -19,6 +19,7 @@ public class PlayerInventory : MonoBehaviour
 
     [SerializeField] private List<SpriteRenderer> _equipmentToChange = new List<SpriteRenderer>();
 
+    [Header("All Objects for each part")]
     [SerializeField] List<List<ItemObject>> _allListsObjectsToChange = new List<List<ItemObject>>();
     [SerializeField] List<ItemObject> _listOfHoods = new List<ItemObject>();
     [SerializeField] List<ItemObject> _listOfPelvis = new List<ItemObject>();
@@ -35,11 +36,14 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddItem(ItemObject item)
     {
+        //CheckForTypeOfItem(item);
         _listOfObjects.Add(item);
 
         coins -= item.price;
         _coinsText.text = coins.ToString();
     }
+
+    
 
     private void Start()
     {
@@ -48,9 +52,9 @@ public class PlayerInventory : MonoBehaviour
             Destroy(gameObject);
         }
 
+        coins = 10000;
         instance = this;
 
-        coins = 1000;
         _coinsText.text = coins.ToString();
 
 
@@ -67,7 +71,7 @@ public class PlayerInventory : MonoBehaviour
         return _listOfObjects;
     }
 
-    public void SetItems()
+    public void SetItemsList()
     {
         for (int i = 0; i != _listOfObjects.Count; i++){
             int index = _listOfObjects[i].index;
@@ -97,8 +101,39 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
-    public void SellItem()
+    public void SellItem(int index, int coins, ItemObject item)
     {
+        _listOfObjects.RemoveAt(index);
 
+        this.coins += coins;
+        _coinsText.text = this.coins.ToString();
+
+        CheckForTypeOfItem(item);
+    }
+
+    private void CheckForTypeOfItem(ItemObject item)
+    {
+        switch (item.index)
+        {
+            case 0:
+                _listOfHoods.Remove(item);         
+                break;
+            case 1:
+                _listOfPelvis.Remove(item);
+                break;
+            case 2:
+                _listOfDholdL.Remove(item);
+                break;
+            case 3:
+                _listOfSholdR.Remove(item);
+                break;
+            case 4:
+                _listOfOTorso.Remove(item);
+                break;
+            default:
+                Debug.Log("incorrect index");
+                break;
+        }
+        _changeList[item.index].ResetPart();
     }
 }
